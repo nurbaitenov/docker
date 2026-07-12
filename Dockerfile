@@ -11,4 +11,13 @@ RUN yum update -y          \
 # Opens containers port
 EXPOSE 80
 
+# runs webserver
+CMD
+
+
+# Run this command when container executed
+ENTRYPOINT ["/usr/sbin/httpd", "-D", "FOREGROUND"]
+
+
+
 
