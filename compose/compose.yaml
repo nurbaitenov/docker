@@ -11,7 +11,7 @@ volumes:
 services:                   # what containers to run
 
   database:                  
-    image: mysql             # container - mysql
+    image: mysql:8.0             # container - mysql
     ports:
     - 3306:3306
     environment:
@@ -28,7 +28,7 @@ services:                   # what containers to run
           memory: 20M
         limits:                   # how much it can use overall
           cpus: '1.0'
-          memory: 50M    
+          memory: 500M    
 
   cache:                    # we need cache system for app 
     depends_on:
