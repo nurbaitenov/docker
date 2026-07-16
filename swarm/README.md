@@ -2,7 +2,7 @@
 
 
 ```
-Docker swarm is an orchestration system by docker. it has manager notes (EC2 instances) which manages worker notes and worker notes (EC2 instances). Inside worker notes runs our applications (mysql,redis,wordpress etc.). 
+Docker swarm is an orchestration system by docker. it has manager notes (EC2 instances) which manages worker nodes and worker nodes (EC2 instances). Inside worker notes runs our applications (mysql,redis,wordpress etc.). 
 We need to create worker notes by 1 by and attach it to manages notes. Attachment code is in install.sh.
 ```
 ### In real world

@@ -61,10 +61,25 @@ services:                   # what containers to run
       WORDPRESS_DB_USER: admin
       WORDPRESS_DB_PASSWORD: redhat
     deploy:
+      replicas: 3                    # replicates containers in each worker nodes
       placement:
         constraints:
         - node.labels.role== worker   # this line tells to this container run in worker note
 
+
+  visualizer:
+    image: dockersamples/visualizer
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.role == manager
+    volumes:
+    - "/var/run/docler.sock:/var/run/docker.sock"
+    ports:
+      - "8080:8080"
+
+# PublicIP:8080 to check above lines visualizer      
 
 
 
@@ -76,4 +91,11 @@ services:                   # what containers to run
 
 
 # to delete
-# docker-compose -f   compose.yaml down   
+# docker
+
+# to add labels. Labels let you tell Swarm where services are allowed to run.
+# docker node update --label-add role=worker  WORKER_ID
+
+
+
+# "consensus cluster election" watch it. important
