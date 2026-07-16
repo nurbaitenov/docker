@@ -25,7 +25,7 @@ services:                   # what containers to run
       resources:
         reservations:             # how much resource it can request
           cpus: '0.5'
-        memory: 20M
+          memory: 20M
         limits:                   # how much it can use overall
           cpus: '1.0'
           memory: 50M    
