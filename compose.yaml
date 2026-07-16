@@ -1,0 +1,26 @@
+# version: "3.9"              # tells what version of compose file to use
+
+# creates a volume
+volumes:
+  wordpress-volume: {}
+
+
+# create containers
+services:                   # what containers to run
+  wordpress:                # container - wordpress
+    image: wordpress        # image of the container  
+    ports:
+    - 80:80
+    volumes:
+    - wordpress-volume:/var/www/html
+
+  database:                  
+    image: mysql             # container - mysql
+    ports:
+    - 3306:3306
+
+
+
+
+# to run
+# docker-compose -f   compose.yaml up   -d
