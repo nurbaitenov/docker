@@ -41,6 +41,10 @@ services:                   # what containers to run
     - 6379:6379  
     volumes:
     - cache-volume:/tmp
+    deploy:
+      placement:
+        constraints:
+        - node.labels.role== worker   # this line tells to container run in worker note
 
   wordpress:                # container - wordpress
     depends_on:
@@ -56,6 +60,10 @@ services:                   # what containers to run
       WORDPRESS_DB_HOST: database:3306
       WORDPRESS_DB_USER: admin
       WORDPRESS_DB_PASSWORD: redhat
+    deploy:
+      placement:
+        constraints:
+        - node.labels.role== worker   # this line tells to this container run in worker note
 
 
 
