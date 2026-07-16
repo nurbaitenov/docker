@@ -21,7 +21,14 @@ services:                   # what containers to run
       MYSQL_PASSWORD: redhat
     volumes:
     - database-volume:/var/lib/mysql
-    
+    deploy:
+      resources:
+        reservations:             # how much resource it can request
+          cpus: '0.5'
+        memory: 20M
+        limits:                   # how much it can use overall
+          cpus: '1.0'
+          memory: 50M    
 
   cache:                    # we need cache system for app 
     depends_on:
