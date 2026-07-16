@@ -4,6 +4,7 @@
 volumes:
   wordpress-volume: {}
   database-volume: {}
+  cache-volume: {}
 
 
 # create containers
@@ -22,7 +23,19 @@ services:                   # what containers to run
     - database-volume:/var/lib/mysql
     
 
+  cache:                    # we need cache system for app 
+    depends_on:
+    - database
+    image: redis
+    ports:
+    - 6379:6379  
+    volumes:
+    - cache-volume:/tmp
+
   wordpress:                # container - wordpress
+    depends_on:
+    - cache
+    - database
     image: wordpress        # image of the container  
     ports:
     - 80:80
@@ -42,3 +55,7 @@ services:                   # what containers to run
 
 # to run
 # docker-compose -f   compose.yaml up   -d
+
+
+# to delete
+# docker-compose -f   compose.yaml down   
