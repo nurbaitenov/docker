@@ -1,0 +1,71 @@
+# version: "3.9"              # tells what version of compose file to use
+
+# creates a volume
+volumes:
+  wordpress-volume: {}
+  database-volume: {}
+  cache-volume: {}
+
+
+# create containers
+services:                   # what containers to run
+
+  database:                  
+    image: mysql:8.0             # container - mysql
+    ports:
+    - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: redhat
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: redhat
+    volumes:
+    - database-volume:/var/lib/mysql
+    deploy:
+      placement:
+        constraints:
+        - node.labels.role== worker   # this line tells to database container run in worker note
+      resources:
+        reservations:             # how much resource it can request
+          cpus: '0.5'
+          memory: 20M
+        limits:                   # how much it can use overall
+          cpus: '1.0'
+          memory: 500M    
+
+  cache:                    # we need cache system for app 
+    depends_on:
+    - database
+    image: redis
+    ports:
+    - 6379:6379  
+    volumes:
+    - cache-volume:/tmp
+
+  wordpress:                # container - wordpress
+    depends_on:
+    - cache
+    - database
+    image: wordpress        # image of the container  
+    ports:
+    - 80:80
+    volumes:
+    - wordpress-volume:/var/www/html
+    environment:
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_HOST: database:3306
+      WORDPRESS_DB_USER: admin
+      WORDPRESS_DB_PASSWORD: redhat
+
+
+
+
+
+
+
+# to run
+# docker stack deploy --compose-file compose.yaml wordpress
+
+
+# to delete
+# docker-compose -f   compose.yaml down   
