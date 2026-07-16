@@ -3,21 +3,39 @@
 # creates a volume
 volumes:
   wordpress-volume: {}
+  database-volume: {}
 
 
 # create containers
 services:                   # what containers to run
+
+  database:                  
+    image: mysql             # container - mysql
+    ports:
+    - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: redhat
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: redhat
+    volumes:
+    - database-volume:/var/lib/mysql
+    
+
   wordpress:                # container - wordpress
     image: wordpress        # image of the container  
     ports:
     - 80:80
     volumes:
     - wordpress-volume:/var/www/html
+    environment:
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_HOST: database:3306
+      WORDPRESS_DB_USER: admin
+      WORDPRESS_DB_PASSWORD: redhat
 
-  database:                  
-    image: mysql             # container - mysql
-    ports:
-    - 3306:3306
+
+
 
 
 
